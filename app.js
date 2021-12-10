@@ -92,7 +92,7 @@ router.post("/login", (req, res) => {
     }
 
     // Create a condition for correct email and password
-    if (req.body.email === "Mike@aol.com" && req.body.password === "abc123") {
+    if (req.body.email.toLowerCase() === "mike@aol.com" && req.body.password === "abc123") {
         sess = req.session;
         sess.loggedin = true;
         res.render("profile", {

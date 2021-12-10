@@ -101,6 +101,7 @@ router.post("/login", (req, res) => {
         })
     } else {
         errors.push("Invalid User");
+        sess.loggedin = false;
         res.render("index", {
             pagename: "index",
             errs: errors,

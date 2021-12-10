@@ -25,7 +25,7 @@ router.get("/", (req, res) => {
     sess = req.session;
     res.render("index", {
         pagename: "index",
-        sess: "sess",
+        sess: sess,
     })
 })
 
@@ -33,15 +33,30 @@ router.get("/about", (req, res) => {
     sess = req.session;
     res.render("about", {
         pagename: "about",
-        sess: "sess",
+        sess: sess,
     })
 })
 
 router.get("/profile", (req, res) => {
     sess = req.session;
-    res.render("profile", {
-        pagename: "profile",
-        sess: "sess",
+    if (typeof(sess) === "undefined" || sess.loggedin !== true) {
+        let errors = ["Not authenticated user"];
+        res.render("index", {
+            pagename: "index",
+            errs: errors,
+        })
+    }else {
+        res.render("profile", {
+            pagename: "profile",
+            sess: sess,
+        })
+    }
+})
+
+router.get("/logout", (req, res) => {
+    sess = req.session;
+    sess.destroy((err) => {
+        res.redirect("/")
     })
 })
 
@@ -49,7 +64,7 @@ router.get("/portfolio", (req, res) => {
     sess = req.session;
     res.render("portfolio", {
         pagename: "portfolio",
-        sess: "sess",
+        sess: sess,
     })
 })
 
@@ -72,15 +87,26 @@ router.post("/login", (req, res) => {
     }
 
     // Validate the password incorrect format.
-    if(!/^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*.])[\w!@#&%^&*.]{8,}$/.test(req.body.password)) {
+    if(!/^[a-zA-Z0-9_.+-]+$/.test(req.body.password)) {
         errors.push("Invalid password format");
     }
-    res.render("index", {
-        pagename: "index",
-        errs: errors,
-    })
-})
 
+    // Create a condition for correct email and password
+    if (req.body.email === "Mike@aol.com" && req.body.password === "abc123") {
+        sess = req.session;
+        sess.loggedin = true;
+        res.render("profile", {
+            pagename: "profile",
+            sess: sess,
+        })
+    } else {
+        errors.push("Invalid User");
+        res.render("index", {
+            pagename: "index",
+            errs: errors,
+        })
+    }
+})
 
 // Declare Static File Locations
 app.use(express.static("views"));

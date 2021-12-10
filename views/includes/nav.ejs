@@ -11,20 +11,30 @@
             <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto me-5">
                 <% if (pagename === "portfolio") {%>
                 <li class="nav-item mx-0 mx-lg-1"><a id="portfolio" class="nav-link py-3 px-0 px-lg-3 rounded" href="portfolio" style="color: orange">Portfolio</a></li>
                 <%} else {%>
                 <li class="nav-item mx-0 mx-lg-1"><a id="portfolio" class="nav-link py-3 px-0 px-lg-3 rounded" href="portfolio" style="color: white">Portfolio</a></li>
                 <%}%>
                 <% if (pagename === "about") {%>
-                <li class="nav-item me-0 me-lg-5"><a id="about"  class="nav-link py-3 px-0 px-lg-5 rounded" href="about" style="color: orange">About</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a id="about"  class="nav-link py-3 px-0 px-lg-3 rounded" href="about" style="color: orange">About</a></li>
                 <%} else {%>
-                <li class="nav-item me-0 me-lg-5"><a id="about"  class="nav-link py-3 px-0 px-lg-5 rounded" href="about" style="color: white">About</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a id="about"  class="nav-link py-3 px-0 px-lg-3 rounded" href="about" style="color: white">About</a></li>
+                <%}%>
+
+                <%if(typeof(sess)!=="undefined" && sess.loggedin === true) {%>
+                    <%if(pagename === "profile") {%>
+                        <li class="nav-item mx-0 mx-lg-1"><a id="about"  class="nav-link py-3 px-0 px-lg-3 rounded" href="profile" style="color: orange">Profile</a></li>
+                    <%} else {%>
+                        <li class="nav-item mx-0 mx-lg-1"><a id="about"  class="nav-link py-3 px-0 px-lg-3 rounded" href="profile" style="color: white">Profile</a></li>
+                    <%}%>
+                    <li class="nav-item mx-0 mx-lg-1"><a id="about"  class="nav-link py-3 px-0 px-lg-3 rounded" href="logout" style="color: white">Logout</a></li>
                 <%}%>
             </ul>
         </div>
     </div>
+    <%if(typeof(sess)==="undefined" || sess.loggedin === undefined) {%>
     <div style="z-index: 12;
     display: block;
     text-align: right;
@@ -49,4 +59,6 @@
             </div>
         </form>
     </div>
+    <%}%>
+
 </nav>
